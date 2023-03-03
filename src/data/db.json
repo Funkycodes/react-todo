@@ -1,0 +1,20 @@
+{
+  "todo": [
+    {
+      "id": 1,
+      "title": "Hello World",
+      "metadata": {
+        "isDone": true,
+        "isImportant": false
+      }
+    },
+    {
+      "id": 2,
+      "title": "Hello Space",
+      "metadata": {
+        "isDone": true,
+        "isImportant": false
+      }
+    }
+  ]
+}
