@@ -6,15 +6,29 @@ import { TodoProvider } from "./context/TodoContext";
 import TodoForm from "./components/todo-form/TodoForm";
 import { HomePage, ImportantPage, MyDayPage } from "./pages";
 import Menu from "./components/menu/Menu";
+import { FaHamburger } from "react-icons/fa";
+import { useState } from "react";
 
 function App() {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  // Run something before running feedbback
+  const runWithFeedback = () => {
+    setMenuIsOpen((prev) => false);
+  };
+
   return (
     <div className="App">
       <Header />
       <div className="container">
         <Router>
           <TodoProvider>
-            <Menu />
+            <FaHamburger
+              className="toggle"
+              onClick={() => {
+                setMenuIsOpen((prev) => !prev);
+              }}
+            />
+            <Menu isOpen={menuIsOpen} navFunc={runWithFeedback} />
             <div className="utility"></div>
             <main>
               <Routes>

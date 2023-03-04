@@ -25,21 +25,36 @@ const UserProfile = (user) => {
   );
 };
 
-function Menu() {
+function Menu({ isOpen, navFunc }) {
   const { importantTodo, todo } = useContext(TodoContext);
   return (
-    <aside className="menu">
+    <aside className={`menu ${isOpen ? "open" : ""}`}>
       <UserProfile {...{ name: "Habib Hassan" }} />
       <nav>
-        <NavLink className="navlink" to="/my_day">
+        <NavLink
+          className="navlink"
+          activeClassName="active"
+          to="/my_day"
+          onClick={navFunc}
+        >
           <FaSun /> My Day
         </NavLink>
-        <NavLink className="navlink" to="/important">
+        <NavLink
+          className="navlink"
+          activeClassName="active"
+          to="/important"
+          onClick={navFunc}
+        >
           <FaStar />
           Important
           <span>{importantTodo.length}</span>
         </NavLink>
-        <NavLink className="navlink" to="/">
+        <NavLink
+          className="navlink"
+          activeClassName="active"
+          to="/"
+          onClick={navFunc}
+        >
           <FaHome />
           Home
           <span>{todo.length}</span>

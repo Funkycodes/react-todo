@@ -22,12 +22,15 @@ body {
 .header h2 {
   margin: 0;
 }
+.toggle {
+  display: none;
+}
 main {
   position: relative;
   flex: 1;
   display: flex;
   flex-flow: column;
-  padding: 0.5rem 2rem;
+  padding: 1rem 2rem;
 }
 .todo-container {
   flex: 1;
@@ -56,17 +59,18 @@ form {
 }
 @media (max-width: 760px) {
   main {
-    padding: 1rem;
+    padding: 2rem 1rem 1rem 1rem;
   }
   .menu {
     position: absolute;
-    z-index: 9999;
+    z-index: 9998;
     transform: translateX(-100%);
-    transition: transform 0.4s ease-in;
+    transition: transform 0.4s ease-in, padding 0.96s ease-out;
     background-color: #fff;
   }
   .menu.open {
     transform: translateX(0);
+    padding-top: 2rem;
   }
   .menu.open + .utility {
     position: absolute;
@@ -74,9 +78,18 @@ form {
     opacity: 0.2;
     width: 100vw;
     height: 100vh;
-    z-index: 9998;
+    z-index: 9997;
   }
   .menu.open + main {
     opacity: 0.7;
+  }
+  .toggle {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    font-size: 1.125rem;
+    display: block;
+    cursor: pointer;
+    z-index: 9999;
   }
 }
