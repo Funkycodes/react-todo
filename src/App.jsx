@@ -6,7 +6,7 @@ import { TodoProvider } from "./context/TodoContext";
 import TodoForm from "./components/todo-form/TodoForm";
 import { HomePage, ImportantPage, MyDayPage } from "./pages";
 import Menu from "./components/menu/Menu";
-import { FaHamburger } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { useState } from "react";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
       <div className="container">
         <Router>
           <TodoProvider>
-            <FaHamburger
+            <FaBars
               className="toggle"
               onClick={() => {
                 setMenuIsOpen((prev) => !prev);
