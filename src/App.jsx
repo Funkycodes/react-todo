@@ -1,19 +1,25 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./components/header/Header";
-import TodoList from "./components/todo-list/TodoList";
-import "./App.css";
-import { TodoProvider } from "./context/TodoContext";
-import TodoForm from "./components/todo-form/TodoForm";
-import { HomePage, ImportantPage, MyDayPage } from "./pages";
-import Menu from "./components/menu/Menu";
-import { FaBars } from "react-icons/fa";
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { TodoProvider } from "./context/TodoContext";
+
+import Header from "./components/header/Header";
+import Menu from "./components/menu/Menu";
+import TodoForm from "./components/todo-form/TodoForm";
+
+import { HomePage, ImportantPage, MyDayPage } from "./pages";
+import { FaBars } from "react-icons/fa";
+
+import "./App.css";
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  // Run something before running feedbback
+
+  // Run something before running feedback
   const runWithFeedback = () => {
-    setMenuIsOpen((prev) => false);
+    setMenuIsOpen(() => false);
+  };
+  const toggleMenuState = () => {
+    setMenuIsOpen((menustate) => !menustate);
   };
 
   return (
@@ -22,47 +28,14 @@ function App() {
       <div className="container">
         <Router>
           <TodoProvider>
-            <FaBars
-              className="toggle"
-              onClick={() => {
-                setMenuIsOpen((prev) => !prev);
-              }}
-            />
+            <FaBars className="toggle" onClick={toggleMenuState} />
             <Menu isOpen={menuIsOpen} navFunc={runWithFeedback} />
             <div className="utility"></div>
             <main>
               <Routes>
-                <Route
-                  exact
-                  path="/"
-                  element={
-                    <HomePage>
-                      <div className="todo-container">
-                        <TodoList />
-                      </div>
-                    </HomePage>
-                  }
-                />
-                <Route
-                  path="/important"
-                  element={
-                    <ImportantPage>
-                      <div className="todo-container">
-                        <TodoList displayOption="important" />
-                      </div>
-                    </ImportantPage>
-                  }
-                />
-                <Route
-                  path="/my_day"
-                  element={
-                    <MyDayPage>
-                      <div class="todo-container">
-                        <TodoList />
-                      </div>
-                    </MyDayPage>
-                  }
-                />
+                <Route index element={<HomePage />} />
+                <Route path="important" element={<ImportantPage />} />
+                <Route path="my_day" element={<MyDayPage />} />
               </Routes>
               <TodoForm />
             </main>

@@ -16,6 +16,7 @@
 
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 *,
 *::before,
@@ -25,16 +26,16 @@ html {
 
 body {
   margin: 0;
-
-  display: flex;
-  flex-flow: column;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+a {
+  color: inherit;
 }
 
 button:hover {

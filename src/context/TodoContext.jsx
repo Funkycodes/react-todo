@@ -1,30 +1,18 @@
-import { useState, createContext } from "react";
+import React, { createContext, useReducer, useState } from "react";
+import TodoReducer from "../reducer/TodoReducer";
 import { FaDollarSign, FaHome, FaUser, FaUserTie } from "react-icons/fa";
 import { v4 as uuidv4 } from "uuid";
 
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-  const [todo, setTodo] = useState([
-    {
-      id: 1,
-      title: "Hello World",
-      tag: "Home",
-      meta: {
-        isDone: true,
-        isImportant: false,
-      },
-    },
-    {
-      id: 2,
-      title: "Hello Space",
-      tag: "Work",
-      meta: {
-        isDone: true,
-        isImportant: true,
-      },
-    },
-  ]);
+  const initalState = {
+    todo: [],
+  };
+  const [state, dispatch] = useReducer(TodoReducer, initalState);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const importantTodo = state.todo.filter((item) => item.meta.important);
+
   const tags = {
     Home: <FaHome />,
     Personal: <FaUser />,
@@ -32,27 +20,31 @@ export const TodoProvider = ({ children }) => {
     Finance: <FaDollarSign />,
   };
 
-  const importantTodo = todo.filter((item) => item.meta.isImportant);
-
   const addTodo = (newTodo) => {
     const id = uuidv4();
     newTodo.id = id;
-    setTodo((todo) => [newTodo, ...todo]);
+    dispatch({
+      type: "ADD_TODO",
+      newTodo,
+    });
   };
-
   const deleteTodo = (id) => {
-    const newTodo = todo.filter((todoItem) => todoItem.id !== id);
-    setTodo(newTodo);
+    dispatch({
+      type: "DELETE_TODO",
+      id,
+    });
   };
 
   return (
     <TodoContext.Provider
       value={{
         tags,
-        todo,
+        todo: state.todo,
         importantTodo,
         addTodo,
         deleteTodo,
+        menuIsOpen,
+        setMenuIsOpen,
       }}
     >
       {children}

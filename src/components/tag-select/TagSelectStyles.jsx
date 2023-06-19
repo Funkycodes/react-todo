@@ -1,9 +1,10 @@
-div.tag-select {
+import styled from "styled-components";
+export const SelectContainer = styled.div`
   width: 72px;
   display: flex;
   justify-content: center;
-}
-ul.options {
+`;
+export const OptionsList = styled.ul`
   background-color: lightgray;
   width: 120px;
   list-style: none;
@@ -16,21 +17,22 @@ ul.options {
   box-shadow: 0px 0px 1px black, 1px 1px 4px #333;
   overflow: hidden;
   display: none;
-}
-.options.open {
-  display: block;
-}
-.option {
+
+  ${({ open }) => (open ? "display:block;" : "")}
+`;
+export const Option = styled.li`
   padding: 4px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
-}
-.option:hover {
-  background-color: #fff;
-}
-.selected-tag {
+
+  &:hover {
+    background-color: #fff;
+  }
+`;
+
+export const SelectedOption = styled.span`
   font-size: 0.625rem;
   cursor: pointer;
-}
+`;

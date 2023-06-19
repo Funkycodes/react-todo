@@ -1,14 +1,15 @@
-import { FaWizardsOfTheCoast } from "react-icons/fa";
-import "./Header.css";
+import React from "react";
 
-function Header() {
+import { HeaderWrapper, HeaderTitle } from "./HeaderStyles";
+import { FaWizardsOfTheCoast as HeaderIcon } from "react-icons/fa";
+
+const Header = () => {
   return (
-    <header className="header">
-      <h2>
-        <FaWizardsOfTheCoast /> Serenity
-      </h2>
-    </header>
+    <HeaderWrapper>
+      <HeaderTitle>
+        <HeaderIcon /> Serenity
+      </HeaderTitle>
+    </HeaderWrapper>
   );
-}
-
+};
 export default Header;

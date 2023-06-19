@@ -1,21 +1,36 @@
-import React, { useState, useContext } from "react";
-import { FaCircleNotch, FaPlus, FaStar } from "react-icons/fa";
-import TodoContext from "../../context/TodoContext";
+import React, { useContext, useReducer } from "react";
+import { FormContainer, InputContainer } from "./TodoFormStyles";
+import Input from "../input/Input";
 import TagSelect from "../tag-select/TagSelect";
-import "./TodoForm.css";
+import { FaCircleNotch, FaPlus, FaStar } from "react-icons/fa";
 
-function TodoForm() {
-  const [isFocused, setIsFocused] = useState(false);
-  const [text, setText] = useState("");
-  const [selectedTag, setSelectedTag] = useState("Home");
-  const [isImportant, setIsImportant] = useState(false);
+import TodoContext from "../../context/TodoContext";
+import FormReducer from "../../reducer/FormReducer";
+
+export default function TodoForm() {
+  const initialState = {
+    focused: false,
+    text: "",
+    tag: "Home",
+    important: false,
+  };
+  const [state, dispatch] = useReducer(FormReducer, initialState);
   const { addTodo } = useContext(TodoContext);
+  const { focused, text, tag, important } = state;
+
   const handleChange = (e) => {
-    setText(e.target.value);
+    dispatch({
+      type: "text",
+      text: e.target.value,
+    });
   };
 
   const handleSelect = (option) => {
-    setSelectedTag(option);
+    dispatch({
+      type: "tag",
+      tag: option,
+    });
+    // settag(option);
   };
   const handleSubmit = (e) => {
     if (e.type === "submit") {
@@ -24,22 +39,44 @@ function TodoForm() {
     if (!text) return;
     const newTodo = {
       title: text,
-      tag: selectedTag,
+      tag: tag,
       meta: {
-        isImportant,
+        important: important,
         isDone: false,
       },
     };
     addTodo(newTodo);
-    setText("");
-    setIsImportant(false);
+    /**
+     * setText("");
+     * setimportant(false);
+     */
+    dispatch({
+      type: "text",
+      text: "",
+    });
+    dispatch({
+      type: "important",
+      important: false,
+    });
+  };
+  const handleInputFocus = () => dispatch({ type: "focused", focused: true });
+  const handleInputBlur = () => {
+    if (text || important) {
+      return;
+    } else {
+      // setfocused(false);
+      dispatch({
+        type: "focused",
+        focused: false,
+      });
+    }
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <FormContainer onSubmit={handleSubmit}>
       <FaCircleNotch
         className="add-icon"
         style={{
-          display: `${isFocused ? "inline-block" : "none"}`,
+          display: `${focused ? "inline-block" : "none"}`,
         }}
         onClick={(e) => {
           handleSubmit(e);
@@ -47,34 +84,30 @@ function TodoForm() {
       />
       <FaPlus
         style={{
-          display: `${isFocused ? "none" : "block"}`,
+          display: `${focused ? "none" : "block"}`,
         }}
         className="plus-icon"
       />
-      <span className="input-container">
-        <input
+      <InputContainer>
+        <Input
           type="text"
           placeholder="Add Task"
-          className="task-input"
           value={text}
           onChange={handleChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => {
-            if (text || isImportant) {
-              return;
-            } else {
-              setIsFocused(false);
-            }
-          }}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
         />
-      </span>
-      <TagSelect selectedTag={selectedTag} handleSelect={handleSelect} />
+      </InputContainer>
+      <TagSelect tag={tag} handleSelect={handleSelect} />
       <FaStar
-        color={`${isImportant ? "gold" : "inherit"}`}
-        onClick={() => setIsImportant(!isImportant)}
+        color={`${important ? "gold" : "inherit"}`}
+        onClick={() =>
+          dispatch({
+            type: "important",
+            important: !important,
+          })
+        }
       />
-    </form>
+    </FormContainer>
   );
 }
-
-export default TodoForm;
